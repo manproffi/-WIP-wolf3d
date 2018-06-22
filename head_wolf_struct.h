@@ -13,6 +13,9 @@
 #ifndef HEAD_WOLF_STRUCT_H
 # define HEAD_WOLF_STRUCT_H
 
+# include "SDL.h"
+# include "SDL_image.h"
+
 typedef struct		s_player
 {
 	double			x_pos;
@@ -21,8 +24,8 @@ typedef struct		s_player
 	double			y_dir;
 	double			x_plane;
 	double			y_plane;
-	clock_t			new_time;
-	clock_t			old_time;
+	Uint32			new_time;
+	Uint32			old_time;
 	int				**mass;
 	int				len;
 	double			x_camera;
@@ -46,36 +49,23 @@ typedef struct		s_player
 	double			frame_time;
 	double			move_speed;
 	double			rot_speed;
-	/*
-	** for mlx
-	*/
-	void			*mlx;
-	void			*win;
-	void			*img;
-	char			*str;
-	int				bp;
-	int				sl;
-	int				end;
-	int				a;
+
+
 }					t_player;
 
-// typedef	struct		s_win
-// {
-// 	void			*mlx;
-// 	void			*win;
-// 	void			*img;
-// 	char			*str;
-// 	int				bp;
-// 	int				sl;
-// 	int				end;
-// 	int				a;
-// }					t_win;
 
-enum				e_colors
+typedef	struct 		s_win
 {
-	C_RED = 0x0000ff,
-	C_YELLOW = 0xffcc65,
-	C_GREEN = 0x00ff00,
-};
+	SDL_Window		*win;
+	SDL_Renderer	*ren;
+	SDL_Event		e;
+	SDL_Surface		*surface;
+	SDL_Texture		*texture;
+
+	int				loop;
+
+
+}					t_win;
+
 
 #endif

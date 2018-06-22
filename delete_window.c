@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   delete_window.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sprotsen <sprotsen@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/03 17:08:30 by sprotsen          #+#    #+#             */
-/*   Updated: 2018/06/03 17:08:33 by sprotsen         ###   ########.fr       */
+/*   Created: 2018/06/17 19:31:01 by sprotsen          #+#    #+#             */
+/*   Updated: 2018/06/17 19:31:03 by sprotsen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_wolf.h"
 
-int	main(int argc, char const *argv[])
+void	delete_window(t_win *sdl)
 {
-	t_list		*list;
-
-
-	list = NULL;
-	if (argc == 2)
-	{
-		list = input_information(argv);
-
-
-		// sleep(32);
-		start_work_with_map(list);
-
-
-
-
-		del_list_list(&list);
-	}
-	else
-		ft_printf("usage: ./wolf3d <map's name>\n");
-	// system("leaks -q wolf3d");
-	return (0);
+	// SDL_DestroyTexture(tex);
+	// printf("asdfasdfjashhiahflk\n");
+	SDL_FreeSurface(sdl->surface);
+	SDL_DestroyRenderer(sdl->ren);
+	SDL_DestroyWindow(sdl->win);
+	// SDL_Quit();
 }
+
+
+
