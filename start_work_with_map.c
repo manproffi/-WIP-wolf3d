@@ -42,31 +42,13 @@ void	find_player_position_and_create_mass(t_list *list, t_player *pl)
 		// printf("\n");
 		tmp = tmp->next;
 	}
-
-
-	////***********////
-	// i = -1;
-	// while (++i < pl->len)
-	// {
-	// 	j = -1;
-	// 	while (++j < pl->len)
-	// 		printf("%d ", pl->mass[i][j]);
-	// 	printf("\n");
-	// }
-
-	// printf("%f %f\n", pl->x_pos, pl->y_pos);
-
-
-
-
-
-
 }
 
 
 void	start_work_with_map(t_list *list)
 {
 	t_player	pl;
+	t_win		sdl;
 
 	pl.x_pos = 0.0;
 	pl.y_pos = 0.0;
@@ -74,23 +56,29 @@ void	start_work_with_map(t_list *list)
 	pl.y_dir = 0.0;
 	pl.x_plane = 0.0;
 	pl.y_plane = 0.66;
-	// pl.new_time = clock();
-	pl.old_time = 0;
+	pl.new_time = 0;
 
 	find_player_position_and_create_mass(list, &pl);
-	// printf("x= %f y= %f\n", pl.x_pos, pl.y_pos);
 	if (pl.x_pos == 0 && pl.y_pos == 0)
 		printf("%s\n", "ERROR: no start position for player");
 	else
 	{
-		create_window(&pl);
-		// printf("asdfasdfasd\n");
-		pl.new_time = clock();
-		start_loop(&pl);
-		// mlx_loop(win->mlx);
-		// printf("END!!!\n");
+		create_window(&sdl);
+		sdl.loop = 0;
+		sdl.surface = SDL_CreateRGBSurface(0, WIDTH, HEIGHT, 32, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+		if (sdl.surface == NULL)
+		{
+//			ft_printf(RED"ERROR kngkdsfnk \n"RESET);
+            printf("ERROR kngkdsfnk \n");
+		}
+		start_loop(&pl, &sdl);
+		printf("****start loop\n");
+		loop(&pl, &sdl);
+
+		delete_window(&sdl);
+
 	}
-	mlx_loop(pl.mlx);
+	
 
 	del_mass(&pl);
 

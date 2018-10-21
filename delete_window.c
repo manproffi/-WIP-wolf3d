@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pr_space_null_row.c                                :+:      :+:    :+:   */
+/*   delete_window.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sprotsen <sprotsen@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/22 20:49:10 by sprotsen          #+#    #+#             */
-/*   Updated: 2017/02/22 20:49:11 by sprotsen         ###   ########.fr       */
+/*   Created: 2018/06/17 19:31:01 by sprotsen          #+#    #+#             */
+/*   Updated: 2018/06/17 19:31:03 by sprotsen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printhead.h"
+#include "head_wolf.h"
 
-void	pr_space_null(int pr, size_t *res, char c)
+void	delete_window(t_win *sdl)
 {
-	while (pr-- > 0)
-	{
-		*res += 1;
-		write(1, &c, 1);
-	}
+	// SDL_DestroyTexture(tex);
+	// printf("asdfasdfjashhiahflk\n");
+	SDL_FreeSurface(sdl->surface);
+	SDL_DestroyRenderer(sdl->ren);
+	SDL_DestroyWindow(sdl->win);
+	// SDL_Quit();
 }
 
-void	pr_row(int len, size_t *res, char *str)
-{
-	while (len-- > 0)
-	{
-		*res += 1;
-		ft_putchar(str[len]);
-	}
-}
+
+

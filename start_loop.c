@@ -12,45 +12,6 @@
 
 #include "head_wolf.h"
 
-void	vertical_line(int x, t_player *pl, int color)
-{
-	int 	i;
-
-	i = pl->draw_start - 1;
-	// printf("%d\n",  (char)color & 255);
-	// printf("%d\n",  (char)(color >> 8) & 255);
-	// printf("%d\n",  (char)(color >> 16) & 255);
-	if (pl->side == 1)
-		color = color / 2;
-	// printf(">>>>>> %d %d\n", pl->draw_start, pl->draw_end);
-	
-	while (++i < pl->draw_end)
-	{
-		// if (i == 250)
-			// printf("**** %d\n", x);
-		
-
-		// printf("**** %d -->>> %d\n", i, (i * WIDTH * 4 + x * 4));
-		// printf("%d\n", (i * WIDTH * 4 + x * 4 + 2));
-		// sleep(1);
-		pl->str[i * WIDTH * 4 + x * 4 + 2] = (char)color & 255;
-		pl->str[i * WIDTH * 4 + x * 4 + 1] = (char)(color >> 8) & 255;
-		pl->str[i * WIDTH * 4 + x * 4 + 0] = (char)(color >> 16) & 255;
-	}
-}
-
-void	color_and_draw(int x, t_player *pl)
-{
-	// printf("color_and_draw\n");
-	if (pl->mass[pl->y_map][pl->x_map] == 1)
-		vertical_line(x, pl, C_YELLOW);
-	else if (pl->mass[pl->y_map][pl->x_map] == 2)
-		vertical_line(x, pl, C_GREEN);
-	else if (pl->mass[pl->y_map][pl->x_map] == 3)
-		vertical_line(x, pl, C_RED);
-	else
-		vertical_line(x, pl, 0x00ff00);	
-}
 
 void	calculate_distance(t_player *pl)
 {
@@ -132,15 +93,15 @@ void	calculate_step_and_initial_side(t_player *pl)
 	}
 }
 
-void	start_loop(t_player *pl)
+void	start_loop(t_player *pl, t_win *sdl)
 {
 	int		x;
-
-	ft_bzero(pl->str, WIDTH * 4 * HEIGHT);
+	
 	x = -1;
+	pl->old_time = SDL_GetTicks();
 	while (++x < WIDTH)
 	{
-		// printf("%d ", x);
+		printf("%d ", x);
 		pl->x_camera = 2 * x / (double)WIDTH - 1;
 		pl->ray_x_dir = pl->x_dir + pl->x_plane * pl->x_camera;
 		pl->ray_y_dir = pl->y_dir + pl->y_plane * pl->x_camera;
@@ -150,19 +111,42 @@ void	start_loop(t_player *pl)
 		pl->delta_y_dist = fabs(1 / pl->ray_y_dir);
 		calculate_step_and_initial_side(pl);
 		loop_while(pl);
-		calculate_distance(pl);
-		color_and_draw(x, pl);
+		calculate_distance(pl);	
+		//TODO add color in Surface ***
+		add_color(x, pl, sdl);
 	}
-	pl->a = mlx_put_image_to_window(pl->mlx, pl->win, pl->img, 0, 0);
-	pl->old_time = pl->new_time;
-	// printf("%lu\n", pl->old_time);
-	pl->new_time = clock();
-	// printf("%lu\n", pl->new_time);
-	pl->frame_time = (double)(pl->old_time - pl->new_time) / 500000.0;
-	pl->move_speed = pl->frame_time * 0.0000000000001;
-	printf("%f\n", pl->move_speed);
+	sdl->texture = SDL_CreateTextureFromSurface(sdl->ren, sdl->surface);
+	if (sdl->texture == NULL)
+	{
+		printf("ERROR 435\n");
+		exit(1);
+	}
+	pl->new_time = SDL_GetTicks();
+	pl->frame_time = (double)(pl->new_time - pl->old_time) / 1000.0;
+	pl->move_speed = pl->frame_time * 7.0;
+
 	pl->rot_speed = pl->frame_time * 3.0;
+
+	SDL_RenderClear(sdl->ren);
+	SDL_RenderCopy(sdl->ren, sdl->texture, 0, 0);
+	SDL_RenderPresent(sdl->ren);
+	
+
+	
+	// pl->old_time = pl->new_time;
+	 // printf("old_time*** %lu\n", pl->old_time);
+	// pl->new_time = clock();
+	 // printf("new_time*** %lu\n", pl->new_time);
+	// pl->frame_time = (double)(pl->new_time - pl->old_time) / 100000.0;
+	// printf("frame_time*** %f\n", pl->frame_time);
+	// pl->move_speed = pl->frame_time * 5.0;
+	// printf("pl->move_speed %f\n", pl->move_speed);
+	// pl->rot_speed = pl->frame_time * 3.0;
+	
+	// mlx_xpm_file_to_image(pl->mlx, ;)
+
 
 
 	// printf("%lu\n", clock()); 
+	
 }

@@ -17,11 +17,8 @@
 # include <fcntl.h>
 # include <time.h>
 # include "libft/libft.h"
-# include "ft_printf/printhead.h"
+//# include "ft_printf/printhead.h"
 # include "head_wolf_struct.h"
-
-# include <mlx.h>
-# include <math.h>
 
 # define WIDTH 1000
 # define HEIGHT 1000
@@ -32,9 +29,18 @@ t_list	*input_information(char const *argv[]);
 t_list	*read_from_file(char const *argv[]);
 void	start_work_with_map(t_list *list);
 void	del_mass(t_player *pl);
-void	start_loop(t_player *pl);
-void	create_window(t_player *all);
+void	start_loop(t_player *pl, t_win *sdl);
 
 
 
+
+
+void	delete_window(t_win *sdl);
+void	create_window(t_win *sdl);
+
+void 	loop(t_player *pl, t_win *sdl);
+void	add_color(int x, t_player *pl, t_win *sdl);
+
+
+ 
 #endif

@@ -93,7 +93,8 @@ int 	validation(t_list *list)
 	if (check_len(len, mass) || check_simbols(tmp))
 	{
 		free(mass);
-		ft_printf(RED"Error: incorrect input format\n"RESET);
+//		ft_printf(RED"Error: incorrect input format\n"RESET);
+        printf("Error: incorrect input format\n");
 		return (1);
 	}
 	free(mass);
